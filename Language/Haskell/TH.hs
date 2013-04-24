@@ -31,6 +31,9 @@ module Language.Haskell.TH(
 	reifyInstances,
 	isInstance,
 
+	-- * Typed expressions
+	TExp, unType,
+
 	-- * Names
 	Name, NameSpace,	-- Abstract
 	-- ** Constructing names
