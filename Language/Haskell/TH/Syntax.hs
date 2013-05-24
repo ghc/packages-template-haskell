@@ -185,7 +185,7 @@ newName s = Q (qNewName s)
 -- but carry on; use 'fail' to stop.
 report  :: Bool -> String -> Q ()
 report b s = Q (qReport b s)
-{-# DEPRECATED report "Use reportError or reportWarning instead" #-} -- deprecated in 7.6
+{-# DEPRECATED report "Use reportError or reportWarning instead" #-}
 
 -- | Report an error to the user, but allow the current splice's computation to carry on. To abort the computation, use 'fail'.
 reportError :: String -> Q ()
@@ -575,7 +575,7 @@ data NameFlavour
 --
 -- The long term solution to this is to use the binary package for annotation serialization and
 -- then remove this instance. However, to do _that_ we need to wait on binary to become stable, since
--- boot libraries cannot be upgraded separately from GHC itself.
+-- boot libraries cannot be upgraded seperately from GHC itself.
 --
 -- This instance cannot be derived automatically due to bug #2701
 instance Data NameFlavour where
@@ -1286,7 +1286,7 @@ type Kind = Type
 Haskell has a rich concrete syntax for types, including
   t1 -> t2, (t1,t2), [t], and so on
 In TH we represent all of this using AppT, with a distinguished
-type constructor at the head.  So,
+type construtor at the head.  So,
   Type              TH representation
   -----------------------------------------------
   t1 -> t2          ArrowT `AppT` t2 `AppT` t2
