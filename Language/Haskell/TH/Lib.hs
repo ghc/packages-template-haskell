@@ -9,6 +9,7 @@ module Language.Haskell.TH.Lib where
 
 import Language.Haskell.TH.Syntax
 import Control.Monad( liftM, liftM2 )
+import qualified Data.Traversable as T
 import Data.Word( Word8 )
 
 ----------------------------------------------------------
@@ -424,11 +425,12 @@ newtypeInstD ctxt tc tys con derivs =
     con1  <- con
     return (NewtypeInstD ctxt1 tc tys1 con1 derivs)
 
-tySynInstD :: Name -> [TySynEqnQ] -> DecQ
-tySynInstD tc eqns = 
-  do 
+tySynInstD :: Name -> Maybe [TypeQ] -> [TySynEqnQ] -> DecQ
+tySynInstD tc mtys eqns = 
+  do
+    mtys1 <- T.sequenceA (fmap sequence mtys)
     eqns1 <- sequence eqns
-    return (TySynInstD tc eqns1)
+    return (TySynInstD tc mtys1 eqns1)
 
 tySynEqn :: [TypeQ] -> TypeQ -> TySynEqnQ
 tySynEqn lhs rhs =
