@@ -19,6 +19,7 @@ type InfoQ          = Q Info
 type PatQ           = Q Pat
 type FieldPatQ      = Q FieldPat
 type ExpQ           = Q Exp
+type TExpQ a        = Q (TExp a)
 type DecQ           = Q Dec
 type DecsQ          = Q [Dec]
 type ConQ           = Q Con
