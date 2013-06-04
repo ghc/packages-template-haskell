@@ -70,6 +70,8 @@ class (Monad m, Applicative m) => Quasi m where
 
   qAddTopDecls :: [Dec] -> m ()
 
+  qAddModFinalizer :: Q () -> m ()
+
 -----------------------------------------------------
 --	The IO instance of Quasi
 -- 
@@ -96,6 +98,7 @@ instance Quasi IO where
   qRecover _ _ 	      = badIO "recover" -- Maybe we could fix this?
   qAddDependentFile _ = badIO "addDependentFile"
   qAddTopDecls _      = badIO "addTopDecls"
+  qAddModFinalizer _  = badIO "addModFinalizer"
 
   qRunIO m = m
   
@@ -344,6 +347,11 @@ addDependentFile fp = Q (qAddDependentFile fp)
 addTopDecls :: [Dec] -> Q ()
 addTopDecls ds = Q (qAddTopDecls ds)
 
+-- | Add a finalizer that will run in the Q monad after the current module has
+-- been type checked. This only makes sense when run within a top-level splice.
+addModFinalizer :: Q () -> Q ()
+addModFinalizer act = Q (qAddModFinalizer (unQ act))
+
 instance Quasi Q where
   qNewName  	    = newName
   qReport   	    = report
@@ -355,6 +363,7 @@ instance Quasi Q where
   qRunIO    	    = runIO
   qAddDependentFile = addDependentFile
   qAddTopDecls      = addTopDecls
+  qAddModFinalizer  = addModFinalizer
 
 
 ----------------------------------------------------
