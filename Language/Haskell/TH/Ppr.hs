@@ -280,7 +280,7 @@ ppr_dec isTop (TySynInstD tc (TySynEqn tys rhs))
   where
     maybeInst | isTop     = text "instance"
               | otherwise = empty
-ppr_dec isTop (ClosedTypeFamilyD tc tvs mkind eqns)
+ppr_dec _ (ClosedTypeFamilyD tc tvs mkind eqns)
   = hang (hsep [ text "type family", ppr tc, hsep (map ppr tvs), maybeKind
                , text "where" ])
       nestDepth (vcat (map ppr_eqn eqns))
